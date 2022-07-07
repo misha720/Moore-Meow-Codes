@@ -1,11 +1,11 @@
 # Moore-Meow-Codes ( Мур Мяу Кодировка)
 ---
-## Самая милая кодировка в __мире__)
+## КОТируем инфу с помошью ___котиков___)
 ![](https://github.com/misha720/Moore-Meow-Codes/blob/c56232394dc7e9a8e956d1cfde58be5f62127078/img.png)
 ## __Установка:__
 ---
 ```
-$ git install https://github.com/misha720/Moore-Meow-Codes.git 
+$ git clone https://github.com/misha720/Moore-Meow-Codes.git 
 ```
 ##### Далле переходим в директорию с проектом и  запускаем!
 ##
