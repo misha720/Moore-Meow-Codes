@@ -18,15 +18,34 @@ class Convert():
 
 			Возвращает True, если переданная строка является ммс-кодом 
 		'''
-		crop = content[0]
+		content = self.filter(content, type_filter="text")
+		for crop in content:
+			if crop == "r" or crop == "y":
+				return True
+		return False
 
-		if crop == "r" or crop == "y":
-			print("Передан код")
-			return True
-		else:
-			print("Передан текст")
-			return False
-			
+	def filter(self, content, type_filter):
+		'''
+			Приводит код в более читабельный вид, и наоборот
+
+			Возвращает строку
+		'''
+		result = ""
+		for letter in content:
+			if type_filter == "mmc": # Если это код
+				if letter == "r":
+					result += "Мур"
+				elif letter == "y":
+					result += "Мяу"
+				else:
+					result += letter
+
+			elif type_filter == "text": # Если это текст
+				result = content.replace("Мур", 'r').replace("Мяу", 'y')
+				break
+
+		return result
+
 	def encode(self, content):
 		'''
 			Зашифровывает сообщение
@@ -108,8 +127,6 @@ class Convert():
 			Читает ключ
 
 			key_path - Обсолютный путь до ключа
-
-			Возвращает json объект с образом ключа
 		'''
 
 		if os.path.isfile(key_path):
@@ -122,20 +139,9 @@ class Convert():
 		else:
 			return " | Ошибка | Такого файла не существует! " + key_path		
 
-	# def creat_key(self, bit_size=8):
-	# 	'''
-	# 		Создаёт ключ
-
-	# 		bit_size - Количество символов кода на 1 символ текста 
-
-	# 		Возвращает True если ключ был успешно создан
-	# 	'''
-
 	def shrink(self, content):
 		'''
 			Сжимает код 
-
-			ryrrrrryrrryrryrryrrrryrrrryryryrryy
 
 			Возвращает сжатый код
 		'''
@@ -152,18 +158,34 @@ class Convert():
 				if word[index_letter] == old_letter:
 					count += 1
 				else:
-					new_code += str(count) + str(old_letter)
+					new_code += str(count) + str(old_letter) + '/'
 					old_letter = word[index_letter]
 					count = 1
 
-			new_code += str(count) + str(old_letter) + " "
+			new_code += str(count) + str(old_letter) + ' '
 			result += new_code 
+
 		return result
 
-	# def increase(self, content):
-	# 	'''
-	# 		Расжимает код
+	def increase(self, content):
+		'''
+			Расжимает код
 
-	# 		Возвращает код
-	# 	'''
+			Возвращает код
+		'''
+		content = content.replace(" ", " _ ")
+		content = content.replace("/", " ")
+		content = content.replace('r', '*"r"')
+		content = content.replace('y', '*"y"')
+		list_words = content.split()
+		result = ""
+
+		for word in list_words:
+			if word == "_":
+				result += word
+			else:
+				result += eval(str(word))
+
+		return result.replace('_', ' ')
+
 
